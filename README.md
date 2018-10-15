@@ -12,5 +12,6 @@ A django project for recruitment of candidates in a company
     - export DJANGO_SETTINGS_MODULE=webRecruitment.settings
     - cd webRecruitment
     - update Database settings in settings.py
+    - Run pip install -r requirements.txt (for installing required packages)
     - Run python manage.py migrate (for database migrations)
     - Run python manage.py runserver (for running server)
