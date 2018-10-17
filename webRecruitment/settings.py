@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Tests'
 ]
 
 MIDDLEWARE = [
@@ -76,10 +77,11 @@ WSGI_APPLICATION = 'webRecruitment.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dbName',
+        'NAME': 'recruitment',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
+        'PORT': '5433'
     }
 }
 
