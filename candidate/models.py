@@ -11,7 +11,6 @@ class Technology(models.Model):
 
 
 class Current_Opening(models.Model):
-    tech_id = models.ForeignKey(Technology, on_delete=models.CASCADE)
     experience = models.FloatField(max_length=3)
     desc = models.CharField(max_length=500)
     opening_date = models.DateTimeField(default=django.utils.timezone.now, blank=True, null=True)
