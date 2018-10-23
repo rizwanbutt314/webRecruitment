@@ -18,10 +18,10 @@ class CurrentOpening(models.Model):
 class RecruitmentUser(models.Model):
     username = models.CharField(max_length=50)
     email = models.EmailField()
-    is_admin = models.NullBooleanField()
-    is_hr = models.NullBooleanField()
-    is_interviewer = models.NullBooleanField()
-    is_manager = models.NullBooleanField()
+    is_admin = models.NullBooleanField(default=False)
+    is_hr = models.NullBooleanField(default=False)
+    is_interviewer = models.NullBooleanField(default=False)
+    is_manager = models.NullBooleanField(default=False)
 
 
 class TechnologyOpening(models.Model):

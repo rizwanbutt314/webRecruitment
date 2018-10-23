@@ -4,8 +4,8 @@ from rest_framework import routers
 
 from candidate import views
 
-router = routers.DefaultRouter()
-router.register(r'users', views.RecruitmentUserViewSet)
 
 urlpatterns = [
-] + router.urls
+    url(r'^add_user/', views.add_user, name='add'),
+    url(r'^delete_user/', views.delete_user, name='delete')
+]
