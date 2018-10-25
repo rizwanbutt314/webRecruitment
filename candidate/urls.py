@@ -3,11 +3,11 @@ from django.urls import include, path
 from rest_framework import routers
 
 from candidate import views
-
+from candidate.views import RecruitmentUsers
 
 urlpatterns = [
-    url(r'^add_user/', views.add_user, name='add'),
-    url(r'^users/', views.users, name='view_users'),
-    path(r'<int:user_id>/', views.user_detail, name='detail'),
-    url(r'^delete_user/', views.delete_user, name='delete')
+    path('add_user/', RecruitmentUsers.as_view(), name='add'),
+    path('users/', RecruitmentUsers.as_view(), name='view_users'),
+    path('delete_user/<int:user_id>/', RecruitmentUsers.as_view(), name='delete'),
+    path('search/<str:name>/', RecruitmentUsers.as_view(), name='search')
 ]

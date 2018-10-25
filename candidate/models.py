@@ -16,7 +16,7 @@ class CurrentOpening(models.Model):
 
 
 class RecruitmentUser(models.Model):
-    username = models.CharField(max_length=50)
+    username = models.TextField()
     email = models.EmailField()
     is_admin = models.NullBooleanField(default=False)
     is_hr = models.NullBooleanField(default=False)
