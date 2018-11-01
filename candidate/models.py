@@ -24,6 +24,7 @@ class RecruitmentUser(models.Model):
     is_manager = models.NullBooleanField(default=False)
 
 
+
 class TechnologyOpening(models.Model):
     tech_id = models.ForeignKey(Technology, on_delete=models.DO_NOTHING)
     opening_id = models.ForeignKey(CurrentOpening, on_delete=models.DO_NOTHING)

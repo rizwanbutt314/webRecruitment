@@ -1,55 +1,35 @@
-from django.core import serializers
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404
-
+from django.http import HttpResponse
 # Create your views here.
-from django.urls import reverse
-from django.utils.decorators import method_decorator
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
+from rest_framework import mixins, generics
+from rest_framework.response import Response
 
 from candidate.models import RecruitmentUser
+from candidate.serializers import RecruitMentSerializer
 
 
-class RecruitmentUsers(View):
-    all_users = RecruitmentUser.objects.all()
-    all_users = serializers.serialize('json', all_users)
+class RecruitmentUsers(mixins.ListModelMixin, generics.GenericAPIView, mixins.CreateModelMixin,
+                       mixins.DestroyModelMixin):
+    serializer_class = RecruitMentSerializer
+    queryset = RecruitmentUser.objects.all()
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super(RecruitmentUsers, self).dispatch(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
-    def get(self, request):
-        return HttpResponse(self.all_users, content_type="application/json")
+    def filter_queryset(self, queryset):
+        query = self.request.GET.get("name")
+        if query:
+            result = queryset.filter(username__icontains=query)
+        else:
+            return queryset
+        return result
 
-    def get(self, request, name):
-        queryset = RecruitmentUser.objects.filter(username__icontains=name)
-        result = serializers.serialize('json', queryset)
-        return HttpResponse(result, content_type="application/json")
-
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         username = request.POST.get("username");
         email = request.POST.get("email");
-        is_hr = request.POST.get("is_hr");
-        is_admin = request.POST.get("is_admin");
-        is_interviewer = request.POST.get("is_interviewer");
-        is_manager = request.POST.get("is_manager");
         if username and email:
-            user = RecruitmentUser()
-            user.username = username
-            user.email = email
-            if is_hr:
-                user.is_hr = is_hr
-            if is_admin:
-                user.is_admin = is_admin
-            if is_interviewer:
-                user.is_interviewer = is_interviewer
-            if is_manager:
-                user.is_manager = is_manager
-            user.save()
-            user = serializers.serialize('json', [user])
-            return HttpResponse(user, content_type="application/json")
+            return self.create(request, *args, **kwargs)
+        else:
+            return Response("Error")
 
-    def delete(self, request, user_id):
-        RecruitmentUser.objects.filter(pk=user_id).delete()
-        return HttpResponse("User deleted successfully")
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request)
